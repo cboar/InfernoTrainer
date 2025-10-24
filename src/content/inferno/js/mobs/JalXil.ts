@@ -6,7 +6,7 @@ import RangeImage from "../../assets/images/ranger.png";
 import RangerSound from "../../assets/sounds/mage_ranger_598.ogg";
 import { InfernoMobDeathStore } from "../InfernoMobDeathStore";
 
-const HitSound = Assets.getAssetUrl("assets/sounds/dragon_hit_410.ogg");
+const HitSound = Assets.getAssetUrl("assets/sounds/ranger_dmg.ogg");
 
 export const RangerModel = Assets.getAssetUrl("models/7698_33014.glb");
 export const RangeProjectileModel = Assets.getAssetUrl("models/range_projectile.glb");
@@ -44,18 +44,19 @@ export class JalXil extends Mob {
 
   setStats() {
     this.stunned = 1;
-``
+    const rangedAttack = new RangedWeapon({
+      models: [RangeProjectileModel, RangeProjectileModel],
+      offsetsInterpolator: JalXilOffsetsInterpolator,
+      modelScale: 1 / 128,
+      projectileSound: new Sound(RangerSound, 0.1),
+      verticalOffset: -1,
+      reduceDelay: -2,
+      visualDelayTicks: 3,
+    });
+    rangedAttack.alwaysHitMax = false;
     this.weapons = {
       crush: new MeleeWeapon(),
-      range: new RangedWeapon({
-        models: [RangeProjectileModel, RangeProjectileModel],
-        offsetsInterpolator: JalXilOffsetsInterpolator,
-        modelScale: 1/128,
-        projectileSound: new Sound(RangerSound, 0.1),
-        verticalOffset: -1,
-        reduceDelay: -2,
-        visualDelayTicks: 3,
-      }),
+      range: rangedAttack,
     };
 
     // non boosted numbers
@@ -114,7 +115,7 @@ export class JalXil extends Mob {
   }
 
   hitSound(damaged) {
-    return new Sound(HitSound, 0.1);
+    return new Sound(HitSound, 0.25);
   }
 
   shouldChangeAggro(projectile: Projectile) {

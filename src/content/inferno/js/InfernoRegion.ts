@@ -443,7 +443,7 @@ export class InfernoRegion extends Region {
       // Clear death store when starting special waves
       InfernoMobDeathStore.clearDeadMobs();
 
-      player.location = { x: 25, y: 27 };
+      player.location = { x: 18, y: 18 };
 
       const jad1 = new JalTokJad(
         this,
@@ -470,6 +470,9 @@ export class InfernoRegion extends Region {
       InfernoMobDeathStore.clearDeadMobs();
 
       player.location = { x: 25, y: 15 };
+      player.currentStats.hitpoint = 115;
+      player.currentStats.defence = 120;
+      player.currentStats.range = 112;
 
       // spawn zuk
       const shield = new ZukShield(this, { x: 23, y: 13 }, { aggro: player });
@@ -779,7 +782,7 @@ export class InfernoRegion extends Region {
       // Clear death store for special waves
       InfernoMobDeathStore.clearDeadMobs();
 
-      player.location = { x: 25, y: 27 };
+      player.location = { x: 17, y: 17 };
 
       const jad1 = new JalTokJad(
         this,

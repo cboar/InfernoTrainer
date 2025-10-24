@@ -1,12 +1,12 @@
 "use strict";
-import { Entity, Projectile, UnitBonuses, Region, Settings, DelayedAction, Model, ImageLoader, Location, EntityNames, UnitStats, BasicModel, Assets } from "osrs-sdk";
+import { Entity, Projectile, UnitBonuses, Region, Settings, DelayedAction, Model, ImageLoader, Location, EntityNames, UnitStats, BasicModel, Assets, GLTFModel } from "osrs-sdk";
 
 
 import { filter, remove } from "lodash";
 
+const PillarModel = Assets.getAssetUrl("models/pillar.glb");
 const MissSplat = Assets.getAssetUrl("assets/images/hitsplats/miss.png");
 const DamageSplat = Assets.getAssetUrl("assets/images/hitsplats/damage.png");
-
 
 export class InfernoPillar extends Entity {
   incomingProjectiles: Projectile[] = [];
@@ -88,16 +88,9 @@ export class InfernoPillar extends Entity {
       return this.dead();
     }
   }
-
-  draw() {
-    this.region.context.fillStyle = "#000073";
-
-    this.region.context.fillRect(
-      this.location.x * Settings.tileSize,
-      (this.location.y - this.size + 1) * Settings.tileSize,
-      this.size * Settings.tileSize,
-      this.size * Settings.tileSize,
-    );
+  
+  get drawOutline(): boolean {
+    return false;
   }
 
   drawUILayer(
@@ -217,6 +210,6 @@ export class InfernoPillar extends Entity {
   }
 
   create3dModel(): Model {
-    return BasicModel.forRenderable(this);
+    return GLTFModel.forRenderable(this, PillarModel);
   }
 }

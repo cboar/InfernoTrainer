@@ -1,18 +1,18 @@
 "use strict";
 
-import { Settings, Region, World, Viewport, MapController, TileMarker, Assets, Location, Chrome, ImageLoader, Trainer, ControlPanelController } from "osrs-sdk";
-
-import NewRelicBrowser from "new-relic-browser";
+import { Settings, Region, World, Viewport, MapController, TileMarker, Assets, Chrome, ImageLoader, Trainer } from "osrs-sdk";
 import { InfernoRegion } from "./content/inferno/js/InfernoRegion";
 import { InfernoSettings } from "./content/inferno/js/InfernoSettings";
+import { JalZek } from "./content/inferno/js/mobs/JalZek";
+import { JalImKot } from "./content/inferno/js/mobs/JalImKot";
 
 const SpecialAttackBarBackground = Assets.getAssetUrl("/assets/images/attackstyles/interface/special_attack_background.png");
 
-declare global {
-  interface Window {
-    newrelic: typeof NewRelicBrowser;
-  }
-}
+// declare global {
+//   interface Window {
+//     newrelic: typeof NewRelicBrowser;
+//   }
+// }
 
 Settings.readFromStorage();
 InfernoSettings.readFromStorage();
@@ -39,8 +39,32 @@ document.getElementById("reset").addEventListener("click", () => {
   Trainer.reset();
 });
 
-document.getElementById("settings").addEventListener("click", () => {
-  ControlPanelController.controller.setActiveControl('SETTINGS');
+document.getElementById("melee_respawn").addEventListener("click", () => {
+  const mager = Trainer.player.region.mobs.find((mob) => mob instanceof JalZek) as JalZek;
+  if (mager) {
+    mager.forceMeleeRespawn = true;
+  }
+});
+
+document.getElementById("melee_dig").addEventListener("click", () => {
+  const meleer = Trainer.player.region.mobs.find((mob) => mob instanceof JalImKot) as JalImKot;
+  if (meleer) {
+    meleer.startDig();
+    meleer.playAnimation(3);
+  }
+});
+
+window.addEventListener("keydown", evt => {
+  if (evt.key === "f") {
+    Settings.tickMs = 100;
+    evt.preventDefault();
+  }
+});
+window.addEventListener("keyup", evt => {
+  if (evt.key === "f") {
+    Settings.tickMs = 600;
+    evt.preventDefault();
+  }
 });
 
 const tileMarkerColor = document.getElementById("tileMarkerColor") as HTMLInputElement;
@@ -81,13 +105,14 @@ const interval = setInterval(() => {
   ImageLoader.checkImagesLoaded(interval);
 }, 50);
 
-Assets.onAllAssetsLoaded(() => {
-  // renders a single frame
-  Viewport.viewport.initialise().then(() => {
-    console.log("assets are preloaded");
-    assetsPreloaded = true;
-    checkStart();
-  });
+Assets.onAllAssetsLoaded(async () => {
+  await Viewport.viewport.initialise();
+  console.log("assets are preloaded");
+  assetsPreloaded = true;
+  // await Promise.all(
+  //   selectedRegion.newMobs.map(mob => mob.preload()),
+  // );
+  checkStart();
 });
 
 function drawAssetLoadingBar(loadingProgress: number) {
@@ -141,13 +166,3 @@ function checkStart() {
     world.startTicking();
   }
 }
-
-/// /////////////////////////////////////////////////////////
-
-window.newrelic.addRelease("inferno-trainer", process.env.COMMIT_REF);
-
-// UI disclaimer
-const topHeaderContainer = document.getElementById("disclaimer_panel");
-topHeaderContainer.innerHTML =
-  'Work in progress.<br />' +
-  topHeaderContainer.innerHTML;

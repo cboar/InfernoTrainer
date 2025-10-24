@@ -325,11 +325,6 @@ export class TzKalZuk extends Mob {
   drawUILayer(tickPercent, offset, context, scale, hitsplatsAbove) {
     super.drawUILayer(tickPercent, offset, context, scale, hitsplatsAbove);
 
-    context.fillStyle = "#FFFF00";
-    context.font = "24px OSRS";
-
-    context.fillText(String(this.currentStats.hitpoint), offset.x, offset.y + 120);
-
     // Display set timer if the setting is enabled
     if (InfernoSettings.displaySetTimer) {
       // Set color based on timer state: red when running, green when paused

@@ -36,6 +36,7 @@ const config = {
   plugins: [
     new CopyPlugin({
       patterns: [
+        { from: 'public', to: "" },
         { from: `index.html`, to: "", context: `src/` },
         { from: `index.html`, to: "colosseum.html", context: `src/` },
         { from: `manifest.json`, to: "", context: `src/` },

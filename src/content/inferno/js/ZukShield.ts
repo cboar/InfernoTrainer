@@ -1,8 +1,9 @@
 import { Assets, Mob, ImageLoader, Location, Projectile, Random, LineOfSightMask, Region, UnitOptions, UnitBonuses, DelayedAction, Unit, CollisionType, Settings, GLTFModel, EntityNames } from "osrs-sdk";
-import { UnitStats } from "osrs-sdk/lib/src/sdk/UnitStats";
+import { UnitStats } from "osrs-sdk";
 
 import { find } from "lodash";
 import { JalXil } from "./mobs/JalXil";
+import { JalZek } from "./mobs/JalZek";
 
 
 const MissSplat = Assets.getAssetUrl("assets/images/hitsplats/miss.png");
@@ -94,9 +95,10 @@ export class ZukShield extends Mob {
         }
         const mager = find(this.region.mobs, (mob: Mob) => {
           return mob.mobName() === EntityNames.JAL_ZEK;
-        }) as JalXil;
+        }) as JalZek;
         if (mager) {
-          mager.setAggro(this.aggro as Unit);
+          mager.setAggro(this.aggro);
+          mager.magicAttack.alwaysHitMax = false;
         }
       }, 2),
     );

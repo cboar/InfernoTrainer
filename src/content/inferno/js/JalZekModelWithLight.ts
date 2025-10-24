@@ -9,9 +9,9 @@ export class JalZekModelWithLight extends GLTFModel {
   primaryModelPath: string;
 
   // light props
-  readonly NORMAL_UNDERGLOW_INTENSITY: number = 32.0;
-  readonly FLICKER_OFF_INTENSITY: number = 0.05;
-  readonly FLICKER_ON_INTENSITY: number = 50.0;
+  readonly NORMAL_UNDERGLOW_INTENSITY: number = 25.0;
+  readonly FLICKER_OFF_INTENSITY: number = 0.02;
+  readonly FLICKER_ON_INTENSITY: number = 60.0;
 
   constructor(renderable: JalZek, modelPath: string, options?: GLTFModelOptions) {
     super(renderable, [modelPath], options || {});

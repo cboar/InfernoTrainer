@@ -25,7 +25,7 @@ import MagerImage from "../../assets/images/mager.png";
 import MagerSound from "../../assets/sounds/mage_ranger_598.ogg";
 import { JalZekModelWithLight } from "../JalZekModelWithLight";
 
-const HitSound = Assets.getAssetUrl("assets/sounds/dragon_hit_410.ogg");
+const HitSound = Assets.getAssetUrl("assets/sounds/ranger_dmg.ogg");
 
 export const MagerModel = Assets.getAssetUrl("models/7699_33000.glb");
 export const MageProjectileModel = Assets.getAssetUrl("models/mage_projectile.glb");
@@ -37,6 +37,8 @@ export class JalZek extends Mob {
   flickerDurationTicks = 1;
   flickerTicksRemaining = 0;
   extendedGltfModelInstance: JalZekModelWithLight | null = null;
+  forceMeleeRespawn = false;
+  magicAttack: MagicWeapon;
 
   mobName() {
     return EntityNames.JAL_ZEK;
@@ -64,16 +66,18 @@ export class JalZek extends Mob {
     this.shouldRespawnMobs = region.wave >= 69;
 
     this.stunned = 1;
+    this.magicAttack = new MagicWeapon({
+      model: MageProjectileModel,
+      modelScale: 1 / 128,
+      visualDelayTicks: 2,
+      visualHitEarlyTicks: -1, // hits after landing
+      sound: new Sound(MagerSound, 0.1),
+    });
+    this.magicAttack.alwaysHitMax = false;
 
     this.weapons = {
       stab: new MeleeWeapon(),
-      magic: new MagicWeapon({
-        model: MageProjectileModel,
-        modelScale: 1 / 128,
-        visualDelayTicks: 2,
-        visualHitEarlyTicks: -1, // hits after landing
-        sound: new Sound(MagerSound, 0.1),
-      }),
+      magic: this.magicAttack,
     };
 
     // non boosted numbers
@@ -132,7 +136,7 @@ export class JalZek extends Mob {
   }
 
   hitSound(damaged) {
-    return new Sound(HitSound, 0.1);
+    return new Sound(HitSound, 0.25);
   }
 
   attackStyleForNewAttack() {
@@ -196,8 +200,9 @@ export class JalZek extends Mob {
         // Set attack style before attacking
         this.attackStyle = this.attackStyleForNewAttack();
         this.attackFeedback = AttackIndicators.NONE;
-        if (Random.get() < 0.1 && !this.shouldRespawnMobs) {
-          const mobToResurrect = InfernoMobDeathStore.selectMobToResurect(this.region);
+        if (this.forceMeleeRespawn || (Random.get() < 0.1 && !this.shouldRespawnMobs)) {
+          const mobToResurrect = InfernoMobDeathStore.selectMobToResurect(this.region, this.forceMeleeRespawn);
+          this.forceMeleeRespawn = false;
           if (!mobToResurrect) {
             this.attack() && this.didAttack();
           } else {

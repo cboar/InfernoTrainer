@@ -5,7 +5,7 @@ import { Assets, MeleeWeapon, Unit, AttackBonuses, ProjectileOptions, Random, Pr
 import NibblerImage from "../../assets/images/nib.png";
 import NibblerSound from "../../assets/sounds/meleer.ogg";
 
-const NibblerModel = Assets.getAssetUrl("models/7691_33005.glb");
+export const NibblerModel = Assets.getAssetUrl("models/7691_33005.glb");
 
 class NibblerWeapon extends MeleeWeapon {
   attack(from: Unit, to: Unit, bonuses: AttackBonuses, options: ProjectileOptions = {}): boolean {

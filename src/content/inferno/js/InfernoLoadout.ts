@@ -24,6 +24,7 @@ import {
   DiamondBoltsE,
   DizanasQuiver,
   DragonArrows,
+  Equipment,
   GuthixRobeTop,
   HolyBlessing,
   InfernalCape,
@@ -66,6 +67,7 @@ import {
   ZaryteVambraces,
 } from "osrs-sdk";
 import { filter, indexOf, map } from "lodash";
+import { AncientSceptre, AvernicTreads, BowfaCorrupted, ConflictionGauntlets, CrystalLegsBlack, VirtusRobebottom } from "./CustomItems";
 
 export class InfernoLoadout {
   wave: number;
@@ -251,13 +253,108 @@ export class InfernoLoadout {
         new SuperRestore(),
         new SuperRestore(),
         new BastionPotion(),
-        new StaminaPotion(),
+        new BastionPotion(),
         new SuperRestore(),
         new SuperRestore(),
       ],
     };
   }
 
+  loadoutAxulub() {
+    return {
+      equipment: {
+        weapon: new AncientSceptre(),
+        offhand: new CrystalShield(),
+        helmet: new CrystalHelm(),
+        necklace: new NecklaceOfAnguish(),
+        cape: new AvasAssembler(),
+        ammo: new HolyBlessing(),
+        chest: new CrystalBody(),
+        legs: new VirtusRobebottom(),
+        feet: new AvernicTreads(),
+        gloves: new ConflictionGauntlets(),
+        ring: null,
+      },
+      inventory: [
+        new Blowpipe(),
+        null,
+        new BowfaCorrupted(),
+        new SuperRestore(),
+        new BarrowsGloves(),
+        new CrystalLegsBlack(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SaradominBrew(),
+        new SaradominBrew(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SaradominBrew(),
+        new SaradominBrew(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SaradominBrew(),
+        new SaradominBrew(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SaradominBrew(),
+        new SaradominBrew(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new BastionPotion(),
+        new BastionPotion(),
+      ],
+    };
+  }
+
+  loadoutAxulubZuk() {
+    return {
+      equipment: {
+        weapon: new BowfaCorrupted(),
+        offhand: null,
+        helmet: new CrystalHelm(),
+        necklace: new NecklaceOfAnguish(),
+        cape: new AvasAssembler(),
+        ammo: new HolyBlessing(),
+        chest: new CrystalBody(),
+        legs: new CrystalLegsBlack(),
+        feet: new AvernicTreads(),
+        gloves: new BarrowsGloves(),
+        ring: null,
+      },
+      inventory: [
+        new Blowpipe(),
+        null,
+        null,
+        null,
+        null,
+        null,
+        new SuperRestore(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SaradominBrew(),
+        new SaradominBrew(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SaradominBrew(),
+        new SaradominBrew(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SaradominBrew(),
+        new SaradominBrew(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new SaradominBrew(),
+        new SaradominBrew(),
+        new SuperRestore(),
+        new SuperRestore(),
+        new BastionPotion(),
+        new BastionPotion(),
+      ],
+    };
+  }
 
   loadoutBudgetFbow() {
     return {
@@ -468,7 +565,7 @@ export class InfernoLoadout {
   }
 
   setStats(player: Player) {
-    player.stats.prayer = 99;
+    player.stats.prayer = 90;
     player.currentStats.prayer = 99;
     player.stats.defence = 99;
     player.currentStats.defence = 99;
@@ -491,6 +588,9 @@ export class InfernoLoadout {
   getLoadout(): UnitOptions {
     let loadout: UnitOptions;
     switch (this.loadoutType) {
+      case "axulub":
+        loadout = this.loadoutAxulub();
+        break;
       case "max_tbow_speed":
         loadout = this.loadoutMaxTbowSpeedrunner();
         break;
@@ -518,49 +618,7 @@ export class InfernoLoadout {
     }
 
     if (this.wave > 66 && this.wave <= 69) {
-      // switch necklace to range dps necklace
-      loadout.inventory[this.findItemByName(loadout.inventory, ItemName.NECKLACE_OF_ANGUISH)] = new OccultNecklace();
-      loadout.equipment.necklace = new NecklaceOfAnguish();
-
-      // Swap out staff with zuk/jad dps weapon
-      const staff = loadout.equipment.weapon;
-      const bow = this.findAnyItemWithName(loadout.inventory, [
-        ItemName.TWISTED_BOW,
-        ItemName.BOWFA,
-        ItemName.RUNE_CROSSBOW,
-      ]);
-      loadout.equipment.weapon = loadout.inventory[bow] as Weapon;
-      loadout.inventory[bow] = staff;
-      if (loadout.equipment.offhand && loadout.equipment.weapon.isTwoHander) {
-        loadout.inventory[loadout.inventory.indexOf(null)] = loadout.equipment.offhand;
-        loadout.equipment.offhand = null;
-      }
-
-      // Swap out chest
-      const mageChest = loadout.equipment.chest;
-      const rangeChest = this.findAnyItemWithName(loadout.inventory, [
-        ItemName.MASORI_BODY_F,
-        ItemName.ARMADYL_CHESTPLATE,
-        ItemName.SARADOMIN_D_HIDE_BODY,
-        ItemName.CRYSTAL_BODY,
-      ]);
-      if (rangeChest !== -1) {
-        loadout.equipment.chest = loadout.inventory[rangeChest] as Chest;
-        loadout.inventory[rangeChest] = mageChest;
-      }
-
-      // Swap out body
-      const mageLegs = loadout.equipment.legs;
-      const rangeLegs = this.findAnyItemWithName(loadout.inventory, [
-        ItemName.MASORI_CHAPS_F,
-        ItemName.ARMADYL_CHAINSKIRT,
-        ItemName.SARADOMIN_D_HIDE_CHAPS,
-        ItemName.CRYSTAL_LEGS,
-      ]);
-      if (rangeLegs !== -1) {
-        loadout.equipment.legs = loadout.inventory[rangeLegs] as Legs;
-        loadout.inventory[rangeLegs] = mageLegs;
-      }
+      loadout = this.loadoutAxulubZuk();
     }
 
     if (this.onTask && this.loadoutType !== "pure") {
