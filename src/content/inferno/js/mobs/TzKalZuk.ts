@@ -15,6 +15,7 @@ import { JadModel, JalTokJad } from "./JalTokJad";
 const HitSound = Assets.getAssetUrl("assets/sounds/dragon_hit_410.ogg");
 
 import ZukAttackSound from "../../assets/sounds/fireblast_cast_and_fire_155.ogg";
+import { InfernoMob } from "../InfernoMob";
 
 const ZukModel = Assets.getAssetUrl("models/7706_33011.glb");
 const ZukBall = Assets.getAssetUrl("models/zuk_projectile.glb");
@@ -59,7 +60,7 @@ class ZukProjectile extends Projectile {
   }
 }
 
-export class TzKalZuk extends Mob {
+export class TzKalZuk extends InfernoMob {
   shield: ZukShield;
   enraged = false;
 
@@ -322,12 +323,17 @@ export class TzKalZuk extends Mob {
     return -Math.PI / 2;
   }
 
-  drawUILayer(tickPercent, offset, context, scale, hitsplatsAbove) {
-    super.drawUILayer(tickPercent, offset, context, scale, hitsplatsAbove);
-
+  override drawUILayer(
+    tickPercent: number,
+    get2dOffset: (heightScale: number) => Location,
+    context: OffscreenCanvasRenderingContext2D,
+    scale: number,
+    hitsplatsAbove = true,
+  ) {
+    super.drawUILayer(tickPercent, get2dOffset, context, scale, hitsplatsAbove);
+    const offset = get2dOffset(1);
     context.fillStyle = "#FFFF00";
     context.font = "24px OSRS";
-
     context.fillText(String(this.currentStats.hitpoint), offset.x, offset.y + 120);
 
     // Display set timer if the setting is enabled

@@ -10,6 +10,7 @@ import FireWaveCastAndFire from "../../assets/sounds/firewave_cast_and_fire_162.
 import FireWaveHit from "../../assets/sounds/firewave_hit_163.ogg";
 
 import { JAD_FRAMES_PER_TICK, JAD_MAGE_FRAMES, JAD_RANGE_FRAMES } from "./JalTokJadAnim";
+import { InfernoMob } from "../InfernoMob";
 
 const HitSound = Assets.getAssetUrl("assets/sounds/dragon_hit_410.ogg");
 
@@ -113,7 +114,7 @@ class JadRangeWeapon extends RangedWeapon {
 const jadMageFrames = JAD_MAGE_FRAMES.map((frame) => ImageLoader.createImage(frame));
 const jadRangeFrames = JAD_RANGE_FRAMES.map((frame) => ImageLoader.createImage(frame));
 
-export class JalTokJad extends Mob {
+export class JalTokJad extends InfernoMob {
   playerPrayerScan?: string = null;
   waveCooldown: number;
   hasProccedHealers = false;

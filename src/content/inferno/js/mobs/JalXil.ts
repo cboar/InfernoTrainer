@@ -1,10 +1,11 @@
 "use strict";
 
-import { Assets, MultiModelProjectileOffsetInterpolator, Location3, Mob, MeleeWeapon, RangedWeapon, Sound, UnitBonuses, Projectile, GLTFModel, EntityNames } from "osrs-sdk";
+import { Assets, MultiModelProjectileOffsetInterpolator, Location3, MeleeWeapon, RangedWeapon, Sound, UnitBonuses, Projectile, GLTFModel, EntityNames } from "osrs-sdk";
 
 import RangeImage from "../../assets/images/ranger.png";
 import RangerSound from "../../assets/sounds/mage_ranger_598.ogg";
 import { InfernoMobDeathStore } from "../InfernoMobDeathStore";
+import { InfernoMob } from "../InfernoMob";
 
 const HitSound = Assets.getAssetUrl("assets/sounds/dragon_hit_410.ogg");
 
@@ -24,7 +25,7 @@ const JalXilOffsetsInterpolator: MultiModelProjectileOffsetInterpolator ={
   }
 }
 
-export class JalXil extends Mob {
+export class JalXil extends InfernoMob {
   mobName() {
     return EntityNames.JAL_XIL;
   }

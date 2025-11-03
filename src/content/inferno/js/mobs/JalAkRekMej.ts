@@ -1,10 +1,11 @@
 "use strict";
 
-import { Mob, EntityNames, Settings, MagicWeapon, UnitBonuses } from "osrs-sdk";
+import { EntityNames, Settings, MagicWeapon, UnitBonuses } from "osrs-sdk";
 
 import JalAkRekMejImage from "../../assets/images/Jal-AkRek-Mej.png";
+import { InfernoMob } from "../InfernoMob";
 
-export class JalAkRekMej extends Mob {
+export class JalAkRekMej extends InfernoMob {
   mobName() {
     return EntityNames.JAL_AK_REK_MEJ;
   }

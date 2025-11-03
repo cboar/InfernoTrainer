@@ -100,14 +100,15 @@ export class InfernoPillar extends Entity {
     );
   }
 
-  drawUILayer(
+  override drawUILayer(
     tickPercent: number,
-    screenPosition: Location,
+    get2dOffset: (heightScale: number) => Location,
     context: OffscreenCanvasRenderingContext2D,
     scale: number,
-    hitsplatAbove) {
+    hitsplatsAbove = true,
+  ) {
     context.save();
-
+    const screenPosition = get2dOffset(1);
     context.translate(screenPosition.x, screenPosition.y);
 
     if (Settings.rotated === "south") {
@@ -117,14 +118,14 @@ export class InfernoPillar extends Entity {
     context.fillStyle = "red";
     context.fillRect(
       (-this.size / 2) * Settings.tileSize,
-      hitsplatAbove ? (-this.size / 2) * Settings.tileSize : 0,
+      hitsplatsAbove ? (-this.size / 2) * Settings.tileSize : 0,
       Settings.tileSize * this.size,
       5,
     );
 
     context.fillStyle = "lime";
     const w = (this.currentStats.hitpoint / this.stats.hitpoint) * (Settings.tileSize * this.size);
-    context.fillRect((-this.size / 2) * Settings.tileSize, hitsplatAbove ? (-this.size / 2) * Settings.tileSize : 0, w, 5);
+    context.fillRect((-this.size / 2) * Settings.tileSize, hitsplatsAbove ? (-this.size / 2) * Settings.tileSize : 0, w, 5);
 
     let projectileOffsets: number[][] = [
       [0, 0],
@@ -152,7 +153,7 @@ export class InfernoPillar extends Entity {
         return offset[0] !== projectile.offsetX || offset[1] !== projectile.offsetY;
       });
 
-      const posMult = hitsplatAbove ? -1 : 1;
+      const posMult = hitsplatsAbove ? -1 : 1;
 
       context.drawImage(
         image,

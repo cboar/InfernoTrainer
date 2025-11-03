@@ -1,9 +1,10 @@
 "use strict";
 
-import { Assets, MeleeWeapon, Unit, AttackBonuses, ProjectileOptions, Random, Projectile, Location, Mob, Region, UnitOptions, Sound, UnitBonuses, Collision, AttackIndicators, Pathing, GLTFModel, EntityNames, LocationUtils } from "osrs-sdk";
+import { Assets, MeleeWeapon, Unit, AttackBonuses, ProjectileOptions, Random, Projectile, Location, Region, UnitOptions, Sound, UnitBonuses, Collision, AttackIndicators, Pathing, GLTFModel, EntityNames, LocationUtils } from "osrs-sdk";
 
 import NibblerImage from "../../assets/images/nib.png";
 import NibblerSound from "../../assets/sounds/meleer.ogg";
+import { InfernoMob } from "../InfernoMob";
 
 const NibblerModel = Assets.getAssetUrl("models/7691_33005.glb");
 
@@ -19,7 +20,7 @@ class NibblerWeapon extends MeleeWeapon {
   }
 }
 
-export class JalNib extends Mob {
+export class JalNib extends InfernoMob {
   constructor(region: Region, location: Location, options: UnitOptions) {
     super(region, location, options);
     this.autoRetaliate = false;

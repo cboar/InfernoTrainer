@@ -1,14 +1,15 @@
 "use strict";
 
-import { Assets, Mob, EntityNames, MeleeWeapon, Sound, UnitBonuses, Location, Random, Collision, UnitTypes, Player, GLTFModel } from "osrs-sdk";
+import { Assets, EntityNames, MeleeWeapon, Sound, UnitBonuses, Location, Random, Collision, UnitTypes, Player, GLTFModel } from "osrs-sdk";
 
 import MeleerImage from "../../assets/images/meleer.png";
 import MeleerSound from "../../assets/sounds/meleer.ogg";
 import { InfernoMobDeathStore } from "../InfernoMobDeathStore";
+import { InfernoMob } from "../InfernoMob";
 
 const MeleerModel = Assets.getAssetUrl("models/7697_33010.glb");
 
-export class JalImKot extends Mob {
+export class JalImKot extends InfernoMob {
   private digSequenceTime = 0;
   private digLocation: Location = { x: 0, y: 0 };
   private digCount = 0;

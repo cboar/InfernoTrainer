@@ -8,10 +8,11 @@ import { JalAkRekKet } from "./JalAkRekKet";
 import { JalAkRekMej } from "./JalAkRekMej";
 import { JalAkRekXil } from "./JalAkRekXil";
 import { InfernoMobDeathStore } from "../InfernoMobDeathStore";
+import { InfernoMob } from "../InfernoMob";
 
 const BlobModel = Assets.getAssetUrl("models/7693_33001.glb");
 
-export class JalAk extends Mob {
+export class JalAk extends InfernoMob {
   playerPrayerScan?: string = null;
 
   mobName() {

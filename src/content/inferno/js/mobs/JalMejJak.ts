@@ -1,9 +1,10 @@
 "use strict";
 
-import { Assets, ProjectileOptions, Weapon, Unit, AttackBonuses, Random, ArcProjectileMotionInterpolator, Projectile, DelayedAction, Mob, UnitBonuses, UnitTypes, Model, GLTFModel, EntityNames } from "osrs-sdk";
+import { Assets, ProjectileOptions, Weapon, Unit, AttackBonuses, Random, ArcProjectileMotionInterpolator, Projectile, DelayedAction, UnitBonuses, UnitTypes, Model, GLTFModel, EntityNames } from "osrs-sdk";
 
 import JalMejJakImage from "../../assets/images/Jal-MejJak.png";
 import { InfernoHealerSpark } from "../InfernoHealerSpark";
+import { InfernoMob } from "../InfernoMob";
 
 const HealerModel = Assets.getAssetUrl("models/zuk_healer.glb");
 const Spark = Assets.getAssetUrl("models/tekton_meteor.glb");
@@ -83,7 +84,7 @@ class AoeWeapon extends Weapon {
 }
 
 const SPAWN_DELAY = 1;
-export class JalMejJak extends Mob {
+export class JalMejJak extends InfernoMob {
   private lastAggro: Unit = null;
 
   mobName() {

@@ -1,8 +1,9 @@
 "use strict";
 
-import { Weapon, Unit, AttackBonuses, ProjectileOptions, Random, Mob, Location, Region, UnitOptions, Projectile, MeleeWeapon, UnitBonuses, UnitTypes, EntityNames } from "osrs-sdk";
+import { Weapon, Unit, AttackBonuses, ProjectileOptions, Random, Location, Region, UnitOptions, Projectile, MeleeWeapon, UnitBonuses, UnitTypes, EntityNames } from "osrs-sdk";
 
 import HurKotImage from "../../assets/images/Yt-HurKot.png";
+import { InfernoMob } from "../InfernoMob";
 
 class HealWeapon extends Weapon {
   calculateHitDelay(distance: number) {
@@ -19,7 +20,7 @@ class HealWeapon extends Weapon {
   }
 }
 
-export class YtHurKot extends Mob {
+export class YtHurKot extends InfernoMob {
   myJad: Unit;
 
   constructor(region: Region, location: Location, options: UnitOptions) {

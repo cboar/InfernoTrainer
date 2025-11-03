@@ -1,10 +1,11 @@
 "use strict";
 
-import { Assets, RangedWeapon, Unit, AttackBonuses, ProjectileOptions, Player, Mob, Sound, UnitBonuses, GLTFModel, EntityNames } from "osrs-sdk";
+import { Assets, RangedWeapon, Unit, AttackBonuses, ProjectileOptions, Player, Sound, UnitBonuses, GLTFModel, EntityNames } from "osrs-sdk";
 
 import BatImage from "../../assets/images/bat.png";
 import BatSound from "../../assets/sounds/bat.ogg";
 import { InfernoMobDeathStore } from "../InfernoMobDeathStore";
+import { InfernoMob } from "../InfernoMob";
 
 const BatModel = Assets.getAssetUrl("models/7692_33018.glb");
 
@@ -16,7 +17,7 @@ class JalMejRahWeapon extends RangedWeapon {
     return true;
   }
 }
-export class JalMejRah extends Mob {
+export class JalMejRah extends InfernoMob {
   mobName() {
     return EntityNames.JAL_MEJ_RAJ;
   }
